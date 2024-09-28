@@ -1,8 +1,8 @@
 services:
   openhab:
-    image: "openhab/openhab:latest-alpine"
+    image: openhab/openhab:latest-alpine
     container_name: openhab
-    restart: always
+    restart: unless-stopped
     # network_mode: host # required for UPnP discovery
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
@@ -21,14 +21,43 @@ services:
       - 8080:8080
       - 8443:8443
 
-  mosquitto:
-    image: eclipse-mosquitto:latest
-    container_name: mosquitto
-    restart: always
+  influxdb:
+    image: influxdb:alpine
+    container_name: influxdb
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/influxdb-admin-username
+      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/influxdb-admin-password 
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/influxdb-admin-token
+      DOCKER_INFLUXDB_INIT_ORG: init-org
+      DOCKER_INFLUXDB_INIT_BUCKET: init-bucket
+    secrets:
+      - influxdb-admin-username
+      - influxdb-admin-password
+      - influxdb-admin-token
     volumes:
-      - "./mosquitto:/mosquitto"
-      - "./mosquitto/data:/mosquitto/data"
-      - "./mosquitto/log:/mosquitto/log"
-    ports:
-      - 1883:1883
-      # - 9001:9001 # for websocket communication
+      - "./influxdb/data:/var/lib/influxdb2"
+      - "./influxdb/config:/etc/influxdb2"
+    # ports:
+    #   - 8086:8086
+
+  # mosquitto:
+  #   image: eclipse-mosquitto:latest
+  #   container_name: mosquitto
+  #   restart: unless-stopped
+  #   volumes:
+  #     - "./mosquitto:/mosquitto"
+  #     - "./mosquitto/data:/mosquitto/data"
+  #     - "./mosquitto/log:/mosquitto/log"
+  #   ports:
+  #     - 1883:1883
+  #     # - 9001:9001 # for websocket communication
+
+secrets:
+  influxdb-admin-username:
+    file: ./influxdb/secrets/admin-username
+  influxdb-admin-password:
+    file: ./influxdb/secrets/admin-password
+  influxdb-admin-token:
+    file: ./influxdb/secrets/admin-token

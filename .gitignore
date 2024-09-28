@@ -1,0 +1,8 @@
+.env
+**/secrets/*
+**/data/**
+**/log/**
+openhab/addons/**
+openhab/conf/**
+openhab/userdata/**
+influxdb/config/**
