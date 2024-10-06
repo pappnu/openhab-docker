@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+start_dir="$PWD"
+
+mkdir -p /openhab/conf/automation/js
+cd /openhab/conf/automation/js
+npm install openhab-spot-price-optimizer@latest
+
+cd node_modules/openhab-spot-price-optimizer
+< config.js tr '\n' '\r' | sed -r "s|influx:\s*\{\s*baseUrl:\s*[^,]+,\s*org:\s*[^,]+,\s*bucket:\s*[^,]+,\s*token:\s*[^,]+\s*\}|influx: \{baseUrl: 'influxdb:8086/api/v2/',org: '$INFLUXDB_ORG',bucket: '$INFLUXDB_BUCKET',token: '$(cat "$INFLUXDB_TOKEN_FILE")'\}|g" | tr '\r' '\n' > /tmp/config.js.tmp && mv /tmp/config.js.tmp config.js
+< config.js tr '\n' '\r' | sed -r "s|entsoe:\s*\{\s*zone:\s*[^,]+,\s*token:\s*[^,}]+\s*\}|entsoe: \{zone: '10YFI-1--------U',token: '$(cat "$ENTSOE_TOKEN_FILE")'\}|g" | tr '\r' '\n' > /tmp/config.js.tmp && mv /tmp/config.js.tmp config.js
+rm -f /tmp/config.js.tmp
+
+cd "$start_dir"

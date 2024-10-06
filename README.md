@@ -7,9 +7,11 @@ Run with (assuming you have a user and a group named openhab)
 USER_ID="$(id -u openhab)" GROUP_ID="$(id -g openhab)" docker compose up -d
 ```
 
-Enter the Mosquitto container
+### Mosquitto
+
+If Mosquitto is enabled, enter it's container
 ```sh
-docker exec -it <mosquitto_container_id> bash
+docker exec -it mosquitto bash
 ```
 and create a new user
 ```

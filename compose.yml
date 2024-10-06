@@ -18,6 +18,13 @@ services:
       GROUP_ID: "$GROUP_ID"
       OPENHAB_HTTP_PORT: "8080"
       OPENHAB_HTTPS_PORT: "8443"
+      INFLUXDB_ORG: init-org
+      INFLUXDB_BUCKET: init-bucket
+      INFLUXDB_TOKEN_FILE: /run/secrets/influxdb-token
+      ENTSOE_TOKEN_FILE: /run/secrets/entsoe-token
+    secrets:
+      - influxdb-token
+      - entsoe-token
     ports:
       - 8080:8080
       - 8443:8443
@@ -62,3 +69,7 @@ secrets:
     file: ./influxdb/secrets/admin-password
   influxdb-admin-token:
     file: ./influxdb/secrets/admin-token
+  influxdb-token:
+    file: ./openhab/secrets/influxdb-token
+  entsoe-token:
+    file: ./openhab/secrets/entsoe-token
