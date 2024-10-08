@@ -1,4 +1,0 @@
-#!/bin/bash
-set -e
-
-apk add --update nodejs npm
