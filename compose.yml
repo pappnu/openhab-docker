@@ -28,6 +28,8 @@ services:
     ports:
       - 8080:8080
       - 8443:8443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   influxdb:
     image: influxdb:alpine
