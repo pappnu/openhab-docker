@@ -8,6 +8,8 @@ set -e
 sleep 40
 # Explicitly install ESPHome binding for the Native API, since it sometimes doesn't survive Docker container updates
 sshpass -p habopen ssh -o StrictHostKeyChecking=no -p 8101 openhab@localhost "openhab:addons install marketplace:146849"
+# Show INFO level log messages from openhab-heating-optimizer
+sshpass -p habopen ssh -o StrictHostKeyChecking=no -p 8101 openhab@localhost "log:set INFO openhab.heating.optimizer"
 /bin/bash -c "su-exec openhab /openhab/runtime/bin/stop"
 sleep 40
 #chown -R openhab:openhab "${OPENHAB_HOME}"
