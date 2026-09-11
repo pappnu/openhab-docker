@@ -11,6 +11,7 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/machine-id:/etc/machine-id:ro"
       - "./openhab/addons:/openhab/addons"
       - "./openhab/conf:/openhab/conf"
       - "./openhab/userdata:/openhab/userdata"
