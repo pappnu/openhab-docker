@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-start_dir="$PWD"
-
-mkdir -p /openhab/conf/automation/js
-cd /openhab/conf/automation/js
-npm install "https://github.com/masipila/openhab-spot-price-optimizer.git#v4.1.0"
-cd "$start_dir"

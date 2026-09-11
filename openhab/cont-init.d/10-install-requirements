@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-apk add --no-cache --update git openssh nodejs npm sshpass
+apk add --no-cache --update git openssh sshpass python3

@@ -7,6 +7,11 @@ Run with (assuming you have a user and a group named openhab)
 USER_ID="$(id -u openhab)" GROUP_ID="$(id -g openhab)" docker compose up -d
 ```
 
+For local testing use:
+```sh
+USER_ID="$(id --user)" GROUP_ID="$(id --group)" docker compose up
+```
+
 ### Mosquitto
 
 If Mosquitto is enabled, enter it's container

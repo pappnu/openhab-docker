@@ -2,6 +2,10 @@ services:
   openhab:
     image: openhab/openhab:latest-alpine
     container_name: openhab
+    deploy:
+      update_config:
+        failure_action: rollback
+        monitor: 2m
     restart: unless-stopped
     # network_mode: host # required for UPnP discovery
     volumes:
@@ -11,6 +15,7 @@ services:
       - "./openhab/conf:/openhab/conf"
       - "./openhab/userdata:/openhab/userdata"
       - "./openhab/cont-init.d:/etc/cont-init.d"
+      - "./openhab/scripts:/scripts:ro"
     environment:
       CRYPTO_POLICY: "unlimited"
       EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Helsinki"
@@ -34,11 +39,15 @@ services:
   influxdb:
     image: influxdb:alpine
     container_name: influxdb
+    deploy:
+      update_config:
+        failure_action: rollback
+        monitor: 1m
     restart: unless-stopped
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/influxdb-admin-username
-      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/influxdb-admin-password 
+      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/influxdb-admin-password
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/influxdb-admin-token
       DOCKER_INFLUXDB_INIT_ORG: init-org
       DOCKER_INFLUXDB_INIT_BUCKET: init-bucket
