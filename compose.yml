@@ -9,7 +9,6 @@ services:
     restart: unless-stopped
     # network_mode: host # required for UPnP discovery
     volumes:
-      - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/machine-id:/etc/machine-id:ro"
       - "./openhab/addons:/openhab/addons"
@@ -19,6 +18,7 @@ services:
       - "./openhab/scripts:/scripts:ro"
     environment:
       CRYPTO_POLICY: "unlimited"
+      TZ: "Europe/Helsinki"
       EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Helsinki"
       USER_ID: "$USER_ID"
       GROUP_ID: "$GROUP_ID"
