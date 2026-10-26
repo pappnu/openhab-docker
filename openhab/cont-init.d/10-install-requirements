@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-apk add --no-cache --update git openssh sshpass python3
+apk add --no-cache --update procps git openssh sshpass python3
