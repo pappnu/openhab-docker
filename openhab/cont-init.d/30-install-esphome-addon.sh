@@ -12,4 +12,8 @@ sshpass -p habopen ssh -o StrictHostKeyChecking=no -p 8101 openhab@localhost "op
 sshpass -p habopen ssh -o StrictHostKeyChecking=no -p 8101 openhab@localhost "log:set INFO openhab.heating.optimizer"
 /bin/bash -c "su-exec openhab /openhab/runtime/bin/stop"
 sleep 40
-#chown -R openhab:openhab "${OPENHAB_HOME}"
+
+# Forcibly clear cache as the JavaScript engine or the heating optimizer addon frequently get
+# stuck after even just a patch level update of openHAB
+rm -rf /openhab/userdata/tmp/*
+rm -rf /openhab/userdata/cache/*
