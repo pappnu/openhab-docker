@@ -20,6 +20,7 @@ find_java_pids() {
         IFS= read -r comm < "$proc/comm" || continue
         [[ "$comm" == "java" ]] && java_pids+=("${proc##*/}")
     done
+    return 0
 }
 
 find_java_pids
